@@ -22,8 +22,6 @@ public class DriveTrain extends Subsystem {
     public DriveTrain() {
         super();
 
-        TalonSRXPIDSetConfiguration pidVals=new TalonSRXPIDSetConfiguration();
-
         rightLeader = new WPI_TalonSRX(RobotMap.RightLeaderID);
         rightLeader.config_kP(0, 1);
         rightFollower = new WPI_TalonSRX(RobotMap.RightFollowerID);
@@ -52,7 +50,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public int getRightEncoderPosition(){
-        return -rightLeader.getSensorCollection().getQuadraturePosition();
+        return rightLeader.getSensorCollection().getQuadraturePosition();
     }
 
     public void setLeftEncoderPosition(int pos){
@@ -60,7 +58,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setRightEncoderPosition(int pos){
-        rightLeader.getSensorCollection().setQuadraturePosition(-pos, 0);
+        rightLeader.getSensorCollection().setQuadraturePosition(pos, 0);
     }
 
     @Override

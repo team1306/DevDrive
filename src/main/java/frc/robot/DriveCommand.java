@@ -46,9 +46,9 @@ public class DriveCommand extends Command {
     protected void execute() {
         double leftVel = leftFollower.calculate(Robot.driveTrain.getLeftEncoderPosition());
         double rightVel = rightFollower.calculate(Robot.driveTrain.getRightEncoderPosition());
-        System.out.println("Left vel: "+leftVel);
-        Robot.driveTrain.rightLeader.set(ControlMode.Velocity, rightVel);
+        Robot.driveTrain.rightLeader.set(ControlMode.Velocity, -rightVel);
         Robot.driveTrain.leftLeader.set(ControlMode.Velocity, leftVel);
+        System.out.println("Completed execute loop: left vel="+leftVel+" right vel="+rightVel);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class DriveCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        return rightFollower.isFinished() && leftFollower.isFinished();
+        return false;
     }
 
 }
