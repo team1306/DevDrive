@@ -51,7 +51,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public int getRightEncoderPosition(){
-        return -rightLeader.getSensorCollection().getQuadraturePosition();
+        return rightLeader.getSensorCollection().getQuadraturePosition();
     }
 
     public void setLeftEncoderPosition(int pos){
@@ -59,7 +59,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setRightEncoderPosition(int pos){
-        rightLeader.getSensorCollection().setQuadraturePosition(-pos, 0);
+        rightLeader.getSensorCollection().setQuadraturePosition(pos, 0);
     }
 
     @Override
