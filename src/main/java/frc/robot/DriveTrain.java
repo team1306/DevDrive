@@ -1,11 +1,8 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfigUtil;
-import com.ctre.phoenix.motorcontrol.can.TalonSRXPIDSetConfiguration;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -22,8 +19,6 @@ public class DriveTrain extends Subsystem {
     public DriveTrain() {
         super();
 
-        TalonSRXPIDSetConfiguration pidVals=new TalonSRXPIDSetConfiguration();
-
         rightLeader = new WPI_TalonSRX(RobotMap.RightLeaderID);
         rightLeader.config_kP(0, 1);
         rightFollower = new WPI_TalonSRX(RobotMap.RightFollowerID);
@@ -37,6 +32,10 @@ public class DriveTrain extends Subsystem {
 
         differentialDrive = new DifferentialDrive(leftLeader, rightLeader);
 
+        rightLeader.setNeutralMode(NeutralMode.Brake);
+        leftLeader.setNeutralMode(NeutralMode.Brake);
+        leftFollower.setNeutralMode(NeutralMode.Brake);
+        rightFollower.setNeutralMode(NeutralMode.Brake);
     }
 
     public void ArcadeDrive(double vel, double theta){
@@ -48,7 +47,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public int getLeftEncoderPosition(){
-        return -leftLeader.getSensorCollection().getQuadraturePosition();
+        return leftLeader.getSensorCollection().getQuadraturePosition();
     }
 
     public int getRightEncoderPosition(){
@@ -56,7 +55,7 @@ public class DriveTrain extends Subsystem {
     }
 
     public void setLeftEncoderPosition(int pos){
-        leftLeader.getSensorCollection().setQuadraturePosition(-pos, 0);
+        leftLeader.getSensorCollection().setQuadraturePosition(pos, 0);
     }
 
     public void setRightEncoderPosition(int pos){

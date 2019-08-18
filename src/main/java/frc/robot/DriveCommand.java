@@ -2,8 +2,6 @@ package frc.robot;
 
 import java.io.IOException;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.command.Command;
 import jaci.pathfinder.PathfinderFRC;
 import jaci.pathfinder.Trajectory;
@@ -13,7 +11,7 @@ public class DriveCommand extends Command {
 
     public DriveCommand() {
         requires(Robot.driveTrain);
-        Robot.driveTrain.differentialDrive.setDeadband(0.0001);
+        Robot.driveTrain.differentialDrive.setDeadband(0.001);
     }
 
     Trajectory trajectoryLeft, trajectoryRight;
@@ -34,22 +32,21 @@ public class DriveCommand extends Command {
         rightFollower = new EncoderFollower(trajectoryRight);
 
         leftFollower.configureEncoder(Robot.driveTrain.getLeftEncoderPosition(), RobotStats.PulsesPerRotation,
-                RobotStats.WheelDiameterMeters);
+                RobotStats.WheelDiameterFeet);
         rightFollower.configureEncoder(Robot.driveTrain.getRightEncoderPosition(), RobotStats.PulsesPerRotation,
-                RobotStats.WheelDiameterMeters);
+                RobotStats.WheelDiameterFeet);
 
-        leftFollower.configurePIDVA(1.5, 0, 0.0, 1 / RobotStats.TopFeetPerSecond, 0.0);
-        rightFollower.configurePIDVA(1.5, 0, 0.0, 1 / RobotStats.TopFeetPerSecond, 0.0);
+        leftFollower.configurePIDVA(0.2, 0, -0.01, 1/RobotStats.TopFeetPerSecond, 0);
+        rightFollower.configurePIDVA(0.2, 0, -0.01, 1/RobotStats.TopFeetPerSecond, 0);
     }
 
     @Override
     protected void execute() {
-        double leftVel = leftFollower.calculate(Robot.driveTrain.getLeftEncoderPosition());
-        double rightVel = rightFollower.calculate(Robot.driveTrain.getRightEncoderPosition());
-        System.out.println("Left vel: "+leftVel);
-        Robot.driveTrain.rightLeader.set(ControlMode.Velocity, rightVel);
-        Robot.driveTrain.leftLeader.set(ControlMode.Velocity, leftVel);
-    }
+        System.out.println("Maximum velocity: "+RobotStats.TopFeetPerSecond);
+        double leftVel =leftFollower.calculate(Robot.driveTrain.getLeftEncoderPosition());
+        double rightVel =rightFollower.calculate(Robot.driveTrain.getRightEncoderPosition());
+        Robot.driveTrain.TankDrive(leftVel,rightVel);
+     }
 
     @Override
     public synchronized void cancel() {
@@ -58,7 +55,7 @@ public class DriveCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        return rightFollower.isFinished() && leftFollower.isFinished();
+        return false;
     }
 
 }

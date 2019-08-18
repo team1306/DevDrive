@@ -1,11 +1,10 @@
 package frc.robot;
 
+public class RobotStats {
 
-public class RobotStats{
-
-    public static final int PulsesPerRotation=1024;
-    public static final double TopRotationsPerSecond=99.8/PulsesPerRotation;//998u/100ms by 1024u/4rot= 0.974609375‬rot/100ms
-    private static final double WheelCircumference=Math.PI*6/12;//in feet
-    public static final double TopFeetPerSecond=TopRotationsPerSecond*WheelCircumference/10;
-    public static final double WheelDiameterMeters=0.1524;
+    public static final int PulsesPerRotation = 1024;
+    public static final double WheelDiameterFeet=6.0 / 12.0;
+    private static final double WheelCircumferenceFeet = Math.PI*WheelDiameterFeet;
+    public static final double TopRotationsPerSecond = 9800 / PulsesPerRotation;// 980u/100ms * rot/1024u
+    public static final double TopFeetPerSecond = TopRotationsPerSecond * WheelCircumferenceFeet;// currently
 }
