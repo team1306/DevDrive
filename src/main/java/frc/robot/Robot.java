@@ -20,10 +20,10 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class Robot extends TimedRobot {
 
-  
   public static DriveTrain driveTrain;
 
   private static REVDigitBoard revBoard;
+
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
@@ -31,10 +31,10 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     driveTrain = new DriveTrain();
-    
+
     Robot.driveTrain.setLeftEncoderPosition(0);
     Robot.driveTrain.setRightEncoderPosition(0);
-    revBoard=new REVDigitBoard();
+    revBoard = new REVDigitBoard();
   }
 
   /**
@@ -46,14 +46,10 @@ public class Robot extends TimedRobot {
    * This runs after the mode specific periodic functions, but before LiveWindow
    * and SmartDashboard integrated updating.
    */
-  int i=0;
+
   @Override
   public void robotPeriodic() {
-    i++;
-    if(i%10==0){
-    System.out.println("robot periodic");
-    revBoard.display(RobotController.getBatteryVoltage());
-    }
+      revBoard.display(RobotController.getBatteryVoltage());
   }
 
   /**
@@ -101,12 +97,12 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit(){
+  public void disabledInit() {
 
   }
 
   @Override
-  public void disabledPeriodic(){
-    
+  public void disabledPeriodic() {
+
   }
 }
