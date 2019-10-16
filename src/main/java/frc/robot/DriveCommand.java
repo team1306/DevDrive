@@ -1,51 +1,31 @@
 package frc.robot;
 
-import java.io.IOException;
-
 import edu.wpi.first.wpilibj.command.Command;
-import jaci.pathfinder.PathfinderFRC;
-import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.followers.EncoderFollower;
 
 public class DriveCommand extends Command {
 
     public DriveCommand() {
+        //"requires" is a function (a reusable block of code) that tells something else
+        // in the program that this command, and this command only, can use the robots drive train.
         requires(Robot.driveTrain);
+
+        //A deadband is an area near the center of a joystick (on a controller) that is set to 0 so that the robot
+        //can be piloted to come to a stop
         Robot.driveTrain.differentialDrive.setDeadband(0.001);
     }
 
-    Trajectory trajectoryLeft, trajectoryRight;
-    EncoderFollower leftFollower, rightFollower;
-
     @Override
     protected void initialize() {
-        super.initialize();
-        Robot.driveTrain.setLeftEncoderPosition(0);
-        Robot.driveTrain.setRightEncoderPosition(0);
-        try {
-            trajectoryLeft = PathfinderFRC.getTrajectory("Line.left");
-            trajectoryRight = PathfinderFRC.getTrajectory("Line.right");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        leftFollower = new EncoderFollower(trajectoryLeft);
-        rightFollower = new EncoderFollower(trajectoryRight);
-
-        leftFollower.configureEncoder(Robot.driveTrain.getLeftEncoderPosition(), RobotStats.PulsesPerRotation,
-                RobotStats.WheelDiameterFeet);
-        rightFollower.configureEncoder(Robot.driveTrain.getRightEncoderPosition(), RobotStats.PulsesPerRotation,
-                RobotStats.WheelDiameterFeet);
-
-        leftFollower.configurePIDVA(0.2, 0, -0.01, 1/RobotStats.TopFeetPerSecond, 0);
-        rightFollower.configurePIDVA(0.2, 0, -0.01, 1/RobotStats.TopFeetPerSecond, 0);
+       //This method (or block of code) is run once, at the beginning of the program
     }
 
     @Override
     protected void execute() {
-        System.out.println("Maximum velocity: "+RobotStats.TopFeetPerSecond);
-        double leftVel =leftFollower.calculate(Robot.driveTrain.getLeftEncoderPosition());
-        double rightVel =rightFollower.calculate(Robot.driveTrain.getRightEncoderPosition());
-        Robot.driveTrain.TankDrive(leftVel,rightVel);
+        //This method (or block of code, within the { } brackets) is called multiple times
+
+        //Tank drive sets the left and the right side of wheels of the robot to a speed between
+        //-1 and 1, with zero being at a stop. Can you make the robot drive forward? How about backward? Turning?
+        Robot.driveTrain.TankDrive(0,0);
      }
 
     @Override
@@ -55,6 +35,7 @@ public class DriveCommand extends Command {
 
     @Override
     protected boolean isFinished() {
+        //This method notifies the program that this command has finished. Since we always want to drive, it is never finished.
         return false;
     }
 
