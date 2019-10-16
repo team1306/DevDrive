@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
 
   public static DriveTrain driveTrain;
 
-  private static REVDigitBoard revBoard;
+  private static RevWrapper revBoard;
 
   /**
    * This function is run when the robot is first started up and should be used
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
     Robot.driveTrain.setLeftEncoderPosition(0);
     Robot.driveTrain.setRightEncoderPosition(0);
-    revBoard = new REVDigitBoard();
+    revBoard = new RevWrapper();
   }
 
   /**
@@ -49,7 +49,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-      revBoard.display(RobotController.getBatteryVoltage());
+      System.out.println("Start");
+      revBoard.display("TEST");
+      revBoard.awaitButtonPress();
+      System.out.println("Point A -1");
+      revBoard.AskAnalog();
+      System.out.println("Point A");
+      revBoard.AskAnalog("Help");
+      System.out.println("Point B");
+      revBoard.AskAnalog("Hi",new String[]{"ABCD","EFGH","ZYXJTEST"});
+      System.out.println("Point C");
+
   }
 
   /**
